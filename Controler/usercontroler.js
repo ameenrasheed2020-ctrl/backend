@@ -18,8 +18,14 @@ const createuser = async (req, res) => {
                 email,
                 password: hashedpasswrd,
                 age,
-                phonenumber
+                phonenumber,
+                profilephoto
+             
+             
+
             })
+            console.log("the err",createuser);
+            
 
         res.json({ data: userr, message: "user succesfully added" })
     }
@@ -41,6 +47,7 @@ const getuserbyid = async (req, res) => {
 }
 const deleteuserbyid = async (req, res) => {
     const kkk = await userModel.findByIdAndDelete(req.params.id)
+    console.log(kkk)
     res.json("succesfully deleted")
 }
 
@@ -63,7 +70,7 @@ const edituserbyid = async (req, res) => {
 
 
 
-const secret_key = "ameen";
+
 
 const register = async (req, res) => {
     try {
@@ -97,9 +104,11 @@ const register = async (req, res) => {
       
         const token = jwt.sign(
             { userId: user.Name },
-            secret_key,
-            { expiresIn: "1h" }
+            process.env.secret_key,
+            { expiresIn: "1h" },
+            { userID: user.userID}
         );
+        res.json({token:token,userIIIIId:user._id});
 
        
         res.status(200).json({
@@ -114,7 +123,7 @@ const register = async (req, res) => {
         });
     }
 };
-
+ 
 
 
 
